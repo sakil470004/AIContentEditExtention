@@ -1,14 +1,13 @@
 {
-    "manifest_version": 3,
-    "name": "AIContent Edit Extention",
-    "version": "1.0",
-    "description": "Injects a header, footer, and a rule-based chat interface for testing space protocols.",
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content-script.js"],
-        "run_at": "document_end"
-      }
-    ]
-  }
-  
+  "manifest_version": 3,
+  "name": "AIContent Edit Extension",
+  "version": "1.0",
+  "description": "Replaces the page content on chatgpt.com with a hard-coded header, original content, and footer.",
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "js": ["content-script.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
