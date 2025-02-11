@@ -1,82 +1,108 @@
 // content.js
 const header = 'test header. ';
 const footer = '. test footer.';
-
 let isProcessing = false;
 
-function modifyText() {
-    if (isProcessing) return;
-    isProcessing = true;
-    
-    const editor = document.querySelector('#prompt-textarea');
-    if (!editor) return;
-
-    // Get raw text without any HTML tags
-    const rawText = editor.innerText.trim();
-    
-    // Clear existing content properly
-    editor.innerHTML = '';
-    
-    // Create new content with single header/footer
-    const newContent = document.createElement('p');
-    newContent.textContent = `${header}${rawText}${footer}`;
-    
-    // Insert new content
-    editor.appendChild(newContent);
-    
-    // Create proper input events
-    const inputEvent = new Event('input', { bubbles: true });
-    const changeEvent = new Event('change', { bubbles: true });
-    
-    editor.dispatchEvent(inputEvent);
-    editor.dispatchEvent(changeEvent);
-    
-    // Reset processing flag after DOM updates
-    setTimeout(() => {
-        isProcessing = false;
-    }, 100);
+function getTextContent() {
+  const editor = document.querySelector('#prompt-textarea');
+  return editor?.textContent?.trim() || '';
 }
 
-function handleSubmit(event) {
-    if (isProcessing) return;
-    
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    
-    modifyText();
-    
-    // Trigger submit after modification
-    setTimeout(() => {
-        document.querySelector('button[data-testid="send-button"]').click();
-    }, 150);
+function setTextContent(text) {
+  const editor = document.querySelector('#prompt-textarea');
+  if (!editor) return;
+
+  // Create new text node instead of HTML
+  const selection = window.getSelection();
+  const range = document.createRange();
+  editor.textContent = text;
+  
+  // Move cursor to end
+  range.selectNodeContents(editor);
+  range.collapse(false);
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function modifyText() {
+  if (isProcessing) return;
+  isProcessing = true;
+
+  const originalText = getTextContent()
+    .replace(new RegExp(`^${header}`), '')
+    .replace(new RegExp(`${footer}$`), '');
+
+  setTextContent(`${header}${originalText}${footer}`);
+
+  // Trigger proper input events
+  const inputEvent = new InputEvent('input', {
+    bubbles: true,
+    composed: true,
+    data: `${header}${originalText}${footer}`
+  });
+  
+  const changeEvent = new Event('change', { bubbles: true });
+  document.querySelector('#prompt-textarea').dispatchEvent(inputEvent);
+  document.querySelector('#prompt-textarea').dispatchEvent(changeEvent);
+
+  isProcessing = false;
 }
 
 const observer = new MutationObserver((mutations) => {
-    const editor = document.querySelector('#prompt-textarea');
-    const sendButton = document.querySelector('button[data-testid="send-button"]');
-    
-    if (editor && sendButton) {
-        // Clean up existing listeners
-        editor.removeEventListener('keydown', handleSubmit);
-        sendButton.removeEventListener('click', handleSubmit);
-        
-        // Add new listeners with proper options
-        editor.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) handleSubmit(e);
-        }, { once: true, capture: true });
-        
-        sendButton.addEventListener('click', handleSubmit, { once: true, capture: true });
+  if (isProcessing) return;
+
+  const editor = document.querySelector('#prompt-textarea');
+  const sendButton = document.querySelector('button[data-testid="send-button"]');
+
+  if (editor && sendButton) {
+    // Clean existing listeners
+    editor.removeEventListener('keydown', handleKeyPress);
+    sendButton.removeEventListener('click', handleClick);
+
+    // Add new listeners
+    editor.addEventListener('keydown', handleKeyPress, { once: true, capture: true });
+    sendButton.addEventListener('click', handleClick, { once: true, capture: true });
+  }
+});
+
+function handleKeyPress(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    handleSubmission();
+  }
+}
+
+function handleClick(e) {
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  handleSubmission();
+}
+
+function handleSubmission() {
+  modifyText();
+  
+  setTimeout(() => {
+    const btn = document.querySelector('button[data-testid="send-button"]');
+    if (btn) {
+      btn.click();
+      // Clear input after submission
+      setTimeout(() => setTextContent(''), 300);
     }
-});
+  }, 200);
+}
 
+// Initialize
 observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    childList: true
+  childList: true,
+  subtree: true,
+  characterData: true
 });
 
-// Initial setup in case elements already exist
-setTimeout(() => observer.observe(document.body, {
+// Handle initial load
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => observer.observe(document.body, {
     childList: true,
     subtree: true
-}), 1000);
+  }), 2000);
+});
