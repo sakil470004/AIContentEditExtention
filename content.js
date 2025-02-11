@@ -3,65 +3,58 @@ const header = 'test header. ';
 const footer = '. test footer.';
 let isProcessing = false;
 
-function getTextContent() {
-  const editor = document.querySelector('#prompt-textarea');
-  return editor?.textContent?.trim() || '';
-}
-
-function setTextContent(text) {
-  const editor = document.querySelector('#prompt-textarea');
-  if (!editor) return;
-
-  // Create new text node instead of HTML
-  const selection = window.getSelection();
-  const range = document.createRange();
-  editor.textContent = text;
-  
-  // Move cursor to end
-  range.selectNodeContents(editor);
-  range.collapse(false);
-  selection.removeAllRanges();
-  selection.addRange(range);
-}
-
 function modifyText() {
   if (isProcessing) return;
   isProcessing = true;
 
-  const originalText = getTextContent()
+  const editor = document.querySelector('#prompt-textarea');
+  if (!editor) return;
+
+  // Get current text and remove existing headers/footers
+  let currentText = editor.textContent.trim()
     .replace(new RegExp(`^${header}`), '')
     .replace(new RegExp(`${footer}$`), '');
 
-  setTextContent(`${header}${originalText}${footer}`);
+  // Set new text content
+  editor.textContent = `${header}${currentText}${footer}`;
 
-  // Trigger proper input events
+  // Create proper input event
   const inputEvent = new InputEvent('input', {
     bubbles: true,
     composed: true,
-    data: `${header}${originalText}${footer}`
+    data: `${header}${currentText}${footer}`
   });
   
-  const changeEvent = new Event('change', { bubbles: true });
-  document.querySelector('#prompt-textarea').dispatchEvent(inputEvent);
-  document.querySelector('#prompt-textarea').dispatchEvent(changeEvent);
-
+  editor.dispatchEvent(inputEvent);
   isProcessing = false;
 }
 
-const observer = new MutationObserver((mutations) => {
+function handleSubmission() {
   if (isProcessing) return;
+  
+  modifyText();
+  
+  // Wait for React state update before submitting
+  setTimeout(() => {
+    const form = document.querySelector('form[type="button"]');
+    if (form) {
+      form.dispatchEvent(new Event('submit', { bubbles: true }));
+    }
+  }, 100);
+}
 
+const observer = new MutationObserver(() => {
   const editor = document.querySelector('#prompt-textarea');
   const sendButton = document.querySelector('button[data-testid="send-button"]');
-
+  
   if (editor && sendButton) {
-    // Clean existing listeners
+    // Clean up existing listeners
     editor.removeEventListener('keydown', handleKeyPress);
     sendButton.removeEventListener('click', handleClick);
-
-    // Add new listeners
-    editor.addEventListener('keydown', handleKeyPress, { once: true, capture: true });
-    sendButton.addEventListener('click', handleClick, { once: true, capture: true });
+    
+    // Add fresh listeners
+    editor.addEventListener('keydown', handleKeyPress, { capture: true });
+    sendButton.addEventListener('click', handleClick, { capture: true });
   }
 });
 
@@ -79,30 +72,16 @@ function handleClick(e) {
   handleSubmission();
 }
 
-function handleSubmission() {
-  modifyText();
-  
-  setTimeout(() => {
-    const btn = document.querySelector('button[data-testid="send-button"]');
-    if (btn) {
-      btn.click();
-      // Clear input after submission
-      setTimeout(() => setTextContent(''), 300);
-    }
-  }, 200);
-}
-
-// Initialize
+// Initialize observer
 observer.observe(document.body, {
   childList: true,
-  subtree: true,
-  characterData: true
+  subtree: true
 });
 
-// Handle initial load
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  }), 2000);
-});
+// Clear input after successful submission
+document.addEventListener('submit', () => {
+  setTimeout(() => {
+    const editor = document.querySelector('#prompt-textarea');
+    if (editor) editor.textContent = '';
+  }, 300);
+}, true);
