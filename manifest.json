@@ -1,13 +1,13 @@
 {
     "manifest_version": 3,
     "name": "ChatGPT Text Replacer",
-    "version": "1.2",
+    "version": "1.3",
     "description": "Adds header and footer to ChatGPT prompts",
     "icons": {
         "128": "icon.png"
     },
     "content_scripts": [{
-        "matches": ["https://chat.openai.com/*"],
+        "matches": ["https://chatgpt.com/*","https://chat.openai.com/*"],
         "js": ["content.js"],
         "run_at": "document_idle"
     }]

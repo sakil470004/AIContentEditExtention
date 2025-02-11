@@ -1,6 +1,6 @@
 // Updated content.js
 const header = 'test header. ';
-const footer = '. test footer.';
+const footer = ' test footer.';
 
 function modifyText() {
     // Target the textarea using placeholder attribute
