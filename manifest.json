@@ -1,13 +1,14 @@
 {
   "manifest_version": 3,
-  "name": "AIContent Edit Extension",
+  "name": "ChatGPT Text Replacer",
   "version": "1.0",
-  "description": "Replaces the page content on chatgpt.com with a hard-coded header, original content, and footer.",
-  "content_scripts": [
-    {
-      "matches": ["https://chatgpt.com/*"],
-      "js": ["content-script.js"],
-      "run_at": "document_end"
-    }
-  ]
+  "description": "Adds header and footer to ChatGPT prompts",
+  "icons": {
+      "128": "icon.png"
+  },
+  "content_scripts": [{
+      "matches": ["https://chat.openai.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+  }]
 }
