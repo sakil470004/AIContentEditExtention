@@ -1,14 +1,14 @@
 {
-  "manifest_version": 3,
-  "name": "ChatGPT Text Replacer",
-  "version": "1.0",
-  "description": "Adds header and footer to ChatGPT prompts",
-  "icons": {
-      "128": "icon.png"
-  },
-  "content_scripts": [{
-      "matches": ["https://chat.openai.com/*"],
-      "js": ["content.js"],
-      "run_at": "document_idle"
-  }]
+    "manifest_version": 3,
+    "name": "ChatGPT Text Replacer",
+    "version": "1.0",
+    "description": "Adds header and footer to ChatGPT prompts",
+    "icons": {
+        "128": "icon.png"
+    },
+    "content_scripts": [{
+        "matches": ["https://chat.openai.com/*"],
+        "js": ["content.js"],
+        "run_at": "document_idle"
+    }]
 }
