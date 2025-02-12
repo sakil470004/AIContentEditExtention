@@ -1,6 +1,6 @@
 // content.js
-const header = 'test header. ';
-const footer = '. test footer.';
+const header = '';
+const footer ="In response, start with '[HEADER TEXT]' and end with '[FOOTER TEXT].";
 let isProcessing = false;
 
 function modifyText() {
