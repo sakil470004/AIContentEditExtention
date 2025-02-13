@@ -1,6 +1,6 @@
 // content.js
 const header = '';
-const footer ="In response, start with '[HEADER:Introduction]' and end with '[FOOTER:Summery].";
+const footer =". In response, start with Introduction,end with Summery Section.";
 let isProcessing = false;
 
 function modifyText() {
