@@ -63,6 +63,8 @@
       btn.addEventListener('click', function() {
         selectedFooterPrompt = option.value;
         modalBg.remove();
+        // Update footer text immediately after selection
+        footer.textContent = footerBase + selectedFooterPrompt;
       });
       modalContent.appendChild(btn);
     });
@@ -99,7 +101,7 @@
   });
   header.appendChild(promptButton);
 
-  // Create the footer element (footer text will be generated dynamically)
+  // Create the footer element (dynamic footer text)
   const footer = document.createElement('div');
   footer.id = 'custom-footer';
   Object.assign(footer.style, {
@@ -116,71 +118,9 @@
   });
   footer.textContent = footerBase + selectedFooterPrompt;
 
-  // Wrap original body content in a new container
-  const originalContent = document.createElement('div');
-  originalContent.id = 'original-content';
-  while (document.body.firstChild) {
-    originalContent.appendChild(document.body.firstChild);
-  }
-  // Add padding so content isn't hidden by fixed header/footer
-  originalContent.style.paddingTop = '60px';
-  originalContent.style.paddingBottom = '60px';
-
-  // Create the chat container for system messages (if needed)
-  const chatContainer = document.createElement('div');
-  chatContainer.id = 'chat-container';
-  Object.assign(chatContainer.style, {
-    position: 'fixed',
-    top: '60px',
-    bottom: '60px',
-    left: '0',
-    right: '0',
-    zIndex: '10000',
-    overflowY: 'auto',
-    padding: '20px',
-    backgroundColor: 'rgba(255,255,255,0.95)'
-  });
-  const conversation = document.createElement('div');
-  conversation.id = 'conversation';
-  chatContainer.appendChild(conversation);
-
-  // Create input form for user messages
-  const form = document.createElement('form');
-  form.id = 'chat-form';
-  Object.assign(form.style, {
-    position: 'fixed',
-    bottom: '70px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    zIndex: '10001',
-    display: 'flex',
-    alignItems: 'center'
-  });
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.placeholder = 'Type your message...';
-  Object.assign(input.style, {
-    width: '300px',
-    padding: '10px',
-    fontSize: '16px'
-  });
-  const sendBtn = document.createElement('button');
-  sendBtn.type = 'submit';
-  sendBtn.textContent = 'Send';
-  Object.assign(sendBtn.style, {
-    marginLeft: '10px',
-    padding: '10px 20px',
-    fontSize: '16px'
-  });
-  form.appendChild(input);
-  form.appendChild(sendBtn);
-
-  // Append the created elements to the body
-  document.body.appendChild(header);
+  // Instead of re-parenting all content, simply insert header and footer
+  document.body.insertBefore(header, document.body.firstChild);
   document.body.appendChild(footer);
-  document.body.appendChild(originalContent);
-  document.body.appendChild(chatContainer);
-  document.body.appendChild(form);
 
   // Function to modify text in the prompt textarea with header and dynamic footer
   function modifyText() {
@@ -205,7 +145,7 @@
     editor.dispatchEvent(inputEvent);
   }
 
-  // Handle submission by modifying text and then triggering submit event
+  // Handle submission by modifying text then triggering submit event
   function handleSubmission() {
     modifyText();
     setTimeout(() => {
