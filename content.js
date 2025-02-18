@@ -1,5 +1,4 @@
 // content.js
-
 (function() {
   // Define static header part and dynamic footer base text
   const staticHeader = "Introduction: Hi, mynul. ";
