@@ -16,8 +16,10 @@ Identity & Data Safeguards Concept Paper:
 – Objective: Draft a proposal outlining our approach to secure, decentralized identity management and immutable logging for the forum platform.
 – Task: Research potential tools (e.g., localStorage, IndexedDB, and future decentralized options) and document best practices.
 – Deadline: First draft in 1 week.
+In Progress
 
 System Feedback Loop Enhancements:
 – Objective: Develop a plan to integrate real-time feedback and status metrics into the interface, so that system health and engagement can be monitored visually.
 – Task: Outline possible visual cues (like status indicators in the header) and implement basic logging to feed these metrics.
 – Deadline: Initial plan and prototype within 1 week.
+Pending
