@@ -1,3 +1,64 @@
+Offline Work Instructions for the ChatGPT Text Replacer Extension
+
+Prepare Your Files:
+
+Create a folder on your computer (for example, "ChatGPTTextReplacer").
+Inside this folder, create the following files:
+manifest.json:
+
+json
+Copy
+Edit
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Text Replacer",
+  "version": "2.2",
+  "description": "Adds header and footer to ChatGPT prompts with a prompt selection modal.",
+  "icons": {
+    "128": "icon.png"
+  },
+  "content_scripts": [{
+    "matches": [
+      "https://chatgpt.com/*",
+      "https://chat.openai.com/*"
+    ],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }]
+}
+content.js: (Copy the complete code provided in the previous instructions for content.js. It contains the header with the "Select Prompt" button, the prompt modal, and the text modification logic. If you need a reminder, refer to the last version we discussed.)
+
+Asset Files:
+
+Place any required images in the same folder, such as icon.png for the extension icon.
+If you have avatar images (like neutral.png), include those as well.
+Load the Extension in Chrome:
+
+Open Chrome and navigate to chrome://extensions/.
+Enable "Developer Mode" (toggle at the top right).
+Click on "Load unpacked" and select your "ChatGPTTextReplacer" folder.
+Verify that the extension appears and is enabled.
+Test on the Target Site:
+
+Once your internet connection is restored, open your target website (e.g., https://chatgpt.com or https://chat.openai.com).
+Confirm that:
+A header appears at the top with the text "Introduction: Hi, mynul. " and a "Select Prompt" button.
+A footer appears at the bottom with the default text " Summery Section: Provide technical insight." (or as updated via prompt selection).
+When you click the "Select Prompt" button, a modal should pop up letting you choose from options like "Creative," "Technical," or "Motivational." Once selected, the footer updates accordingly.
+When you type in the prompt textarea and submit a message, the text should be wrapped with the header and footer.
+If Issues Arise:
+
+Open Chrome Developer Tools (press F12) and check the Console for error messages.
+Verify that the file names, paths, and manifest matches are correct.
+Ensure that you’re using the correct URL patterns in your manifest.
+Document Your Changes:
+
+Keep a local log (a text file, for example) noting any changes or observations as you test. This helps in refining the code later.
+These are your step-by-step instructions. Follow them carefully, and feel free to adjust or note any issues for later review. Once your internet is back, we can sync up on any further updates.
+
+Have a productive session, and let’s rock this project together!
+
+
 New Project Assignments:
 
 Local Logging & Dashboard Prototype:
