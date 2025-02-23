@@ -6,26 +6,6 @@ Create a folder on your computer (for example, "ChatGPTTextReplacer").
 Inside this folder, create the following files:
 manifest.json:
 
-json
-Copy
-Edit
-{
-  "manifest_version": 3,
-  "name": "ChatGPT Text Replacer",
-  "version": "2.2",
-  "description": "Adds header and footer to ChatGPT prompts with a prompt selection modal.",
-  "icons": {
-    "128": "icon.png"
-  },
-  "content_scripts": [{
-    "matches": [
-      "https://chatgpt.com/*",
-      "https://chat.openai.com/*"
-    ],
-    "js": ["content.js"],
-    "run_at": "document_idle"
-  }]
-}
 content.js: (Copy the complete code provided in the previous instructions for content.js. It contains the header with the "Select Prompt" button, the prompt modal, and the text modification logic. If you need a reminder, refer to the last version we discussed.)
 
 Asset Files:
