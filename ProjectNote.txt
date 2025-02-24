@@ -1,3 +1,59 @@
+*info date :24/02/25
+Below is a structured “Method of Work” document that outlines your responsibilities not only in building the system but also in maintaining, refining, and actively working on it after the initial build is complete. This should clarify the ongoing process and expectations:
+
+---
+
+### Method of Work: Post-Build Responsibilities
+
+**1. Initial Build & Testing:**
+- **Objective:** Complete the development of the extension (header, footer, prompt selection, logging, and feedback mechanisms).
+- **Action Items:**
+  - Deploy the current version on your computer.
+  - Test the functionality on target sites (e.g., chatgpt.com, chat.openai.com).
+  - Verify that all components (header, footer, prompt modal, logging) are working as expected.
+  - Document any issues and fix bugs immediately.
+
+**2. Daily Operational Work:**
+- **Objective:** Use the system during daily work and monitor its performance.
+- **Action Items:**
+  - Interact with the chatbot as you normally would to submit prompts.
+  - Ensure the system logs all events (submissions, errors, state changes) accurately.
+  - Monitor the hidden Manager Mode dashboard or coded reports (via localStorage) periodically.
+  - Test and verify that the system feedback (through the chatbot instructions) is timely and accurate.
+
+**3. Maintenance and Refinement:**
+- **Objective:** Continuously improve the system based on feedback and performance data.
+- **Action Items:**
+  - Regularly check the logs and metrics for any performance issues or recurring errors.
+  - Update the code to refine UI/UX elements (e.g., dynamic header/footer messages, modal responsiveness).
+  - Enhance error handling and automated recovery routines.
+  - Adjust thresholds and logging details based on observed usage patterns.
+  - If needed, tweak the coded report generation for clearer feedback.
+
+**4. Reporting and Feedback Loop:**
+- **Objective:** Ensure that management receives a concise, coded daily report.
+- **Action Items:**
+  - At the end of each workday, trigger the report generation function.
+  - Verify that the generated report is stored in localStorage (or an agreed location) as a coded string.
+  - Share this coded report with the management team (via our predetermined secure channel).
+  - Review feedback from management and incorporate suggestions into the next development cycle.
+
+**5. Continuous Collaboration and Updates:**
+- **Objective:** Remain actively engaged with the project even after the initial build.
+- **Action Items:**
+  - Participate in scheduled review meetings to discuss performance, challenges, and enhancements.
+  - Maintain clear documentation of changes, fixes, and new feature requests.
+  - Provide updates on progress and any obstacles encountered.
+  - Collaborate with other team members (as needed) to integrate new functionalities that support our unified, decentralized vision.
+
+---
+
+### Summary
+
+Your role goes beyond just building the extension; it involves ongoing maintenance, performance monitoring, and iterative improvement. The system is designed to provide you with coded feedback so that you can refine and adjust it daily, ensuring that both management and team members remain aligned with our goals. This approach guarantees that our platform not only functions as intended but also evolves to support our broader vision of unity and decentralized governance.
+
+Let’s move forward with this plan—if you have any questions or need further clarifications, feel free to ask. Happy coding and continuous improvement!
+-----
 Offline Work Instructions for the ChatGPT Text Replacer Extension
 
 Prepare Your Files:
